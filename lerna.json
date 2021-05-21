@@ -12,7 +12,8 @@
       "preid": "beta"
     },
     "version": {
-      "push": false
+      "push": false,
+      "conventionalCommits": true
     }
   },
   "ignoreChanges": [
