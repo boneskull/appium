@@ -12,10 +12,6 @@
       "preid": "beta"
     },
     "version": {
-      "allowBranch": [
-        "master",
-        "2.0"
-      ],
       "push": false
     }
   },
