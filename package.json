@@ -38,7 +38,7 @@
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
     "reinstall": "npm run clean && npm install",
     "start": "node ./packages/appium",
-    "sync-pkgs": "npm run sync-pkgs:appium-readme sync-pkgs:common-fields sync-pkgs:keywords",
+    "sync-pkgs": "npm run sync-pkgs:appium-readme && npm run sync-pkgs:common-fields && npm run sync-pkgs:keywords",
     "sync-pkgs:appium-readme": "sync-monorepo-packages --no-package-json --packages=packages/appium README.md",
     "sync-pkgs:common-fields": "sync-monorepo-packages --fields=author,license,repository,bugs,homepage,engines,publishConfig",
     "sync-pkgs:keywords": "sync-monorepo-packages --field=keywords --packages='packages/*' --packages='!packages/eslint-config-appium'",
