@@ -5,7 +5,6 @@
       "ignore": "@appium/eslint-config-appium"
     },
     "publish": {
-      "canary": true,
       "distTag": "next",
       "npmClientArgs": [
         "--dry-run"
