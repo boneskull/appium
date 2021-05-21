@@ -1,17 +1,4 @@
 {
-  "changelog": {
-    "cacheDir": ".changelog",
-    "labels": {
-      "PR: Breaking Change :boom:": ":boom: Breaking Change",
-      "PR: Bug Fix :bug:": ":bug: Bug Fix",
-      "PR: Docs :memo:": ":memo: Documentation",
-      "PR: Internal :house:": ":house: Internal",
-      "PR: New Feature :rocket:": ":rocket: New Feature",
-      "PR: Polish :nail_care:": ":nail_care: Polish",
-      "PR: Spec Compliancy :eyeglasses:": ":eyeglasses: Spec Compliancy"
-    },
-    "repo": "appium/appium"
-  },
   "ci": false,
   "command": {
     "exec": {
@@ -20,6 +7,9 @@
     "publish": {
       "canary": true,
       "distTag": "next",
+      "npmClientArgs": [
+        "--dry-run"
+      ],
       "preid": "beta"
     },
     "version": {
