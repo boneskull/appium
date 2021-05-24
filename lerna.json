@@ -4,13 +4,6 @@
     "exec": {
       "ignore": "@appium/eslint-config-appium"
     },
-    "publish": {
-      "distTag": "next",
-      "npmClientArgs": [
-        "--dry-run"
-      ],
-      "preid": "beta"
-    },
     "version": {
       "push": false,
       "conventionalCommits": true
