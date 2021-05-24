@@ -81,5 +81,9 @@
   "engines": {
     "node": ">=12",
     "npm": ">=6"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
   }
 }
