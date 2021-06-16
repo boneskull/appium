@@ -3,12 +3,17 @@
   "overrides": [
     {
       "files": "packages/fake-driver/**/*",
-      "rules": { "require-await": "off" }
+      "rules": {"require-await": "off"}
     },
-    { "files": "packages/support/**/*", "globals": { "BigInt": "readonly" } },
+    {"files": "packages/support/**/*", "globals": {"BigInt": "readonly"}},
     {
       "files": "packages/*/test/**/*",
-      "rules": { "func-names": "off" }
+      "rules": {"func-names": "off"}
+    },
+    {
+      "files": ["*.yaml", "*.yml"],
+      "plugins": ["yaml"],
+      "extends": ["plugin:yaml/recommended"]
     }
   ]
 }
