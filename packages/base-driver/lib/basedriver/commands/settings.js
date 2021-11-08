@@ -1,19 +1,36 @@
 import log from '../logger';
 
-let commands = {};
+const commands = {
+  /**
+   * @this {BaseDriver}
+   * @param {DeviceSettings} newSettings
+   * @returns {Promise<void>}
+   */
+  async updateSettings (newSettings) {
+    if (!this.settings) {
+      log.errorAndThrow('Cannot update settings; settings object not found');
+    }
+    return await this.settings.update(newSettings);
+  },
 
-commands.updateSettings = async function updateSettings (newSettings) {
-  if (!this.settings) {
-    log.errorAndThrow('Cannot update settings; settings object not found');
+  /**
+   * @this {BaseDriver}
+   * @returns {Promise<DeviceSettings>}
+   */
+  async getSettings () {
+    if (!this.settings) {
+      log.errorAndThrow('Cannot get settings; settings object not found');
+    }
+    return await this.settings.getSettings();
   }
-  return await this.settings.update(newSettings);
-};
-
-commands.getSettings = async function getSettings () {
-  if (!this.settings) {
-    log.errorAndThrow('Cannot get settings; settings object not found');
-  }
-  return await this.settings.getSettings();
 };
 
 export default commands;
+
+/**
+ * @typedef {import('../device-settings').DeviceSettings} DeviceSettings
+ */
+
+/**
+ * @typedef {import('../driver').BaseDriver} BaseDriver
+ */

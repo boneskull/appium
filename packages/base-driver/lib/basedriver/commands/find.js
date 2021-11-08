@@ -1,54 +1,55 @@
+// @ts-check
+
 import log from '../logger';
+import {errors} from '../../protocol';
 
-
-const commands = {}, helpers = {}, extensions = {};
-
-
-// Override the following function for your own driver, and the rest is taken
-// care of!
-
-// helpers.findElOrEls = async function (strategy, selector, mult, context) {}
-//   strategy: locator strategy
-//   selector: the actual selector for finding an element
-//   mult: multiple elements or just one?
-//   context: finding an element from the root context? or starting from another element
-//
-// Returns an object which adheres to the way the JSON Wire Protocol represents elements:
-// { ELEMENT: # }    eg: { ELEMENT: 3 }  or { ELEMENT: 1.023 }
-
-helpers.findElOrElsWithProcessing = async function findElOrElsWithProcessing (strategy, selector, mult, context) {
-  this.validateLocatorStrategy(strategy);
-  try {
-    return await this.findElOrEls(strategy, selector, mult, context);
-  } catch (err) {
-    if (this.opts.printPageSourceOnFindFailure) {
-      const src = await this.getPageSource();
-      log.debug(`Error finding element${mult ? 's' : ''}: ${err.message}`);
-      log.debug(`Page source requested through 'printPageSourceOnFindFailure':`);
-      log.debug(src);
+const commands = {
+  async findElOrElsWithProcessing (strategy, selector, mult, context) {
+    this.validateLocatorStrategy(strategy);
+    try {
+      return await this.findElOrEls(strategy, selector, mult, context);
+    } catch (err) {
+      if (this.opts.printPageSourceOnFindFailure) {
+        const src = await this.getPageSource();
+        log.debug(`Error finding element${mult ? 's' : ''}: ${err.message}`);
+        log.debug(`Page source requested through 'printPageSourceOnFindFailure':`);
+        log.debug(src);
+      }
+      // still want the error to occur
+      throw err;
     }
-    // still want the error to occur
-    throw err;
+  },
+
+  async findElement (strategy, selector) {
+    return await this.findElOrElsWithProcessing(strategy, selector, false);
+  },
+
+  async findElements (strategy, selector) {
+    return await this.findElOrElsWithProcessing(strategy, selector, true);
+  },
+
+  async findElementFromElement (strategy, selector, elementId) {
+    return await this.findElOrElsWithProcessing(strategy, selector, false, elementId);
+  },
+
+  async findElementsFromElement (strategy, selector, elementId) {
+    return await this.findElOrElsWithProcessing(strategy, selector, true, elementId);
+  },
+
+  /**
+   * Drivers must implement!
+   * @this {import('../driver').BaseDriver}
+   * @abstract
+   * @param {string} strategy - Locator strategy
+   * @param {string} selector - Actual selector
+   * @param {boolean} mult - Multiple elements or just one?
+   * @param {object} context - Finding from an element, or from root?
+   * @returns {Promise<object>} - Returns an object which adheres to the way the JSON Wire Protocol represents elements; eg: `{ ELEMENT: 3 }` or `{ ELEMENT: 1.023 }`
+   */
+  // eslint-disable-next-line require-await, no-unused-vars
+  async funcElOrEls (strategy, selector, mult, context) {
+    throw new errors.NotYetImplementedError();
   }
 };
 
-commands.findElement = async function findElement (strategy, selector) {
-  return await this.findElOrElsWithProcessing(strategy, selector, false);
-};
-
-commands.findElements = async function findElements (strategy, selector) {
-  return await this.findElOrElsWithProcessing(strategy, selector, true);
-};
-
-commands.findElementFromElement = async function findElementFromElement (strategy, selector, elementId) {
-  return await this.findElOrElsWithProcessing(strategy, selector, false, elementId);
-};
-
-commands.findElementsFromElement = async function findElementsFromElement (strategy, selector, elementId) {
-  return await this.findElOrElsWithProcessing(strategy, selector, true, elementId);
-};
-
-
-Object.assign(extensions, commands, helpers);
-export { commands, helpers };
-export default extensions;
+export default commands;

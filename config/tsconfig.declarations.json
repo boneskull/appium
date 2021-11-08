@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "outDir": "../packages/base-driver/types"
+  },
+  "include": [
+    "../packages/base-driver/lib/**/*.js",
+    "../packages/base-driver/*.d.ts"
+  ],
+  "exclude": ["**/node_modules/**", "**/build/**"]
+}

@@ -1,14 +1,24 @@
+// @ts-check
+
 import _ from 'lodash';
 import log from './logger';
 
 class DeviceSettings {
 
-  constructor (defaultSettings = {}, onSettingsUpdate = null) {
+  /**
+   * @param {object} defaultSettings
+   * @param {OnSettingsUpdateListener} onSettingsUpdate
+   */
+  constructor (defaultSettings = {}, onSettingsUpdate = _.noop) {
     this._settings = Object.assign({}, defaultSettings);
     this.onSettingsUpdate = onSettingsUpdate;
   }
 
-  // calls updateSettings from implementing driver every time a setting is changed.
+  /**
+   * Calls updateSettings from implementing driver every time a setting is changed.
+   * @param {Record<string, any>} newSettings
+   * @returns {Promise<void>}
+   */
   async update (newSettings) {
     if (!_.isPlainObject(newSettings)) {
       throw new Error(`Settings update should be called with valid JSON. Got ` +

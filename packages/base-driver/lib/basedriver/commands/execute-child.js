@@ -1,3 +1,5 @@
+// @ts-check
+
 import _ from 'lodash';
 import B from 'bluebird';
 import vm from 'vm';
@@ -120,6 +122,8 @@ async function main (driverOpts, script, timeout) {
   } catch (error) {
     res = {error: {message: error.message, stack: error.stack}};
   }
+  // unable to determine why this fails; maybe Bluebird .d.ts is wrong?
+  // @ts-ignore
   await B.promisify(process.send, {context: process})(res);
 }
 

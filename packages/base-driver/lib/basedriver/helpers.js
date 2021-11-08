@@ -1,3 +1,5 @@
+// @ts-check
+
 import _ from 'lodash';
 import path from 'path';
 import url from 'url';
@@ -121,6 +123,15 @@ function verifyAppExtension (app, supportedAppExtensions) {
     supportedAppExtensions);
 }
 
+/** @type {Array<string?>} */
+const HTTPLIKE_PROTOCOLS = ['http:', 'https:'];
+
+/**
+ *
+ * @param {string} app
+ * @param {string[]} supportedAppExtensions
+ * @returns {Promise<string|undefined>}
+ */
 async function configureApp (app, supportedAppExtensions) {
   if (!_.isString(app)) {
     // immediately shortcircuit if not given an app
@@ -133,13 +144,16 @@ async function configureApp (app, supportedAppExtensions) {
   let newApp = app;
   let shouldUnzipApp = false;
   let archiveHash = null;
+  /** @type {object} */
   const remoteAppProps = {
     lastModified: null,
     immutable: false,
     maxAge: null,
   };
+  // XXX: to address this, we will need to convert `newApp` to use a `file://` protocol
+  // then call new URL(newApp)
   const {protocol, pathname} = url.parse(newApp);
-  const isUrl = ['http:', 'https:'].includes(protocol);
+  const isUrl = HTTPLIKE_PROTOCOLS.includes(protocol);
 
   return await APPLICATIONS_CACHE_GUARD.acquire(app, async () => {
     if (isUrl) {
@@ -171,7 +185,7 @@ async function configureApp (app, supportedAppExtensions) {
       }
 
       let fileName = null;
-      const basename = fs.sanitizeName(path.basename(decodeURIComponent(pathname)), {
+      const basename = fs.sanitizeName(path.basename(decodeURIComponent(/** @type {string} */(pathname))), {
         replacement: SANITIZE_REPLACEMENT
       });
       const extname = path.extname(basename);
@@ -211,7 +225,7 @@ async function configureApp (app, supportedAppExtensions) {
         if (!supportedAppExtensions.includes(resultingExt)) {
           logger.info(`The current file extension '${resultingExt}' is not supported. ` +
             `Defaulting to '${_.first(supportedAppExtensions)}'`);
-          resultingExt = _.first(supportedAppExtensions);
+          resultingExt = /** @type {string} */(_.first(supportedAppExtensions));
         }
         fileName = `${resultingName}${resultingExt}`;
       }
@@ -301,15 +315,15 @@ async function downloadApp (app, targetPath) {
 /**
  * Extracts the bundle from an archive into the given folder
  *
+ * Rejects if the given archive is invalid or no application bundles
+ * have been found inside
  * @param {string} zipPath Full path to the archive containing the bundle
  * @param {string} dstRoot Full path to the folder where the extracted bundle
  * should be placed
- * @param {Array<string>|string} supportedAppExtensions The list of extensions
+ * @param {string|string[]} supportedAppExtensions The list of extensions
  * the target application bundle supports, for example ['.apk', '.apks'] for
  * Android packages
- * @returns {string} Full path to the bundle in the destination folder
- * @throws {Error} If the given archive is invalid or no application bundles
- * have been found inside
+ * @returns {Promise<string>} Full path to the bundle in the destination folder
  */
 async function unzipApp (zipPath, dstRoot, supportedAppExtensions) {
   await zip.assertValidZip(zipPath);
@@ -326,7 +340,7 @@ async function unzipApp (zipPath, dstRoot, supportedAppExtensions) {
      * Attempt to use use the system `unzip` (e.g., `/usr/bin/unzip`) due
      * to the significant performance improvement it provides over the native
      * JS "unzip" implementation.
-     * @type {import('@appium/support/lib/zip').ExtractAllOptions}
+     * @type {Partial<import('@appium/support/lib/zip').ExtractAllOptions>}
      */
     const extractionOpts = {
       useSystemUnzip: !system.isWindows(),
@@ -362,6 +376,11 @@ async function unzipApp (zipPath, dstRoot, supportedAppExtensions) {
   }
 }
 
+/**
+ * Returns `true` if a filename looks like a bundle or zip file
+ * @param {string} app
+ * @returns {boolean}
+ */
 function isPackageOrBundle (app) {
   return (/^([a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+)+$/).test(app);
 }
@@ -405,7 +424,8 @@ function duplicateKeys (input, firstKey, secondKey) {
  * Takes a desired capability and tries to JSON.parse it as an array,
  * and either returns the parsed array or a singleton array.
  *
- * @param {string|Array<String>} cap A desired capability
+ * @param {string|string[]} cap - A desired capability
+ * @returns {string[]} Array of capabilities
  */
 function parseCapsArray (cap) {
   if (_.isArray(cap)) {

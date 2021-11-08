@@ -190,7 +190,7 @@ class AppiumSchema {
       /**
        * @param {typeof baseSchema} baseSchema
        * @param {Map<string,SchemaObject>} extensionSchemas
-       * @param {ExtensionType} extType
+       * @param {string} extType
        */
       (baseSchema, extensionSchemas, extType) => {
         extensionSchemas.forEach((schema, extName) => {
@@ -200,7 +200,7 @@ class AppiumSchema {
           baseSchema.properties.server.properties[extType].properties[extName] =
             {$ref, $comment: extName};
           ajv.validateSchema(schema, true);
-          addArgSpecs(schema.properties, extType, extName);
+          addArgSpecs(schema.properties, /** @type {ExtensionType} */(extType), extName);
           ajv.addSchema(schema, $ref);
           finalizedSchemas[$ref] = /** @type {StrictSchemaObject} */(schema);
         });
