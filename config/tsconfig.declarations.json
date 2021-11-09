@@ -3,11 +3,12 @@
   "compilerOptions": {
     "emitDeclarationOnly": true,
     "declaration": true,
-    "outDir": "../packages/base-driver/types"
+    "outDir": "../packages/base-driver/types",
+    "rootDir": "../packages/base-driver"
   },
   "include": [
     "../packages/base-driver/lib/**/*.js",
     "../packages/base-driver/*.d.ts"
   ],
-  "exclude": ["**/node_modules/**", "**/build/**"]
+  "exclude": ["**/node_modules/**", "**/build/**", "../packages/appium/**/*"]
 }

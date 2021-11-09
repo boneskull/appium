@@ -42,3 +42,7 @@ const commands = {
 };
 
 export default commands;
+
+/**
+ * @typedef {import('../driver').BaseDriver} BaseDriver
+ */

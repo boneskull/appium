@@ -178,3 +178,7 @@ function fixCaps (originalCaps, desiredCapConstraints = {}) {
 
 export default commands;
 export { promoteAppiumOptions };
+
+/**
+ * @typedef {import('../driver').BaseDriver} BaseDriver
+ */
