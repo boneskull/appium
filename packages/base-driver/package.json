@@ -37,8 +37,8 @@
     "!build/test/e2e/fixtures"
   ],
   "scripts": {
-    "build": "npm run build:sources && npm run build:test",
-    "build:sources": "babel lib --root-mode=upward --out-dir=build/lib",
+    "build": "run-s build:*",
+    "build:distfiles": "babel lib --root-mode=upward --out-dir=build/lib",
     "build:test": "babel test --root-mode=upward --out-dir=build/test --copy-files",
     "dev": "npm run build -- --watch",
     "fix": "npm run lint -- --fix",
