@@ -234,10 +234,10 @@ describe('Manifest', function () {
       });
 
       describe('when called after `read()`', function () {
-        /** @type {import('../../../lib/extension/manifest').ManifestData} */
+        /** @type {ManifestData} */
         let data;
 
-        /** @type {ExtData<DriverType>} */
+        /** @type {ExtManifest<DriverType>} */
         const extData = {
           version: '1.0.0',
           automationName: 'Derp',
@@ -295,7 +295,7 @@ describe('Manifest', function () {
     });
 
     describe('addExtension()', function () {
-      /** @type {ExtData<DriverType>} */
+      /** @type {ExtManifest<DriverType>} */
       const extData = {
         automationName: 'derp',
         version: '1.0.0',
@@ -312,8 +312,6 @@ describe('Manifest', function () {
       });
 
       describe('when existing extension added', function () {
-        /** @type {ExtData<DriverType>} */
-
         beforeEach(function () {
           manifest.addExtension('driver', 'foo', extData);
         });
@@ -331,7 +329,7 @@ describe('Manifest', function () {
 
     describe('addExtensionFromPackage()', function () {
       describe('when provided a valid package.json for a driver and its path', function () {
-        /** @type {ExtensionPackageJson<DriverType>} */
+        /** @type {ExtPackageJson<DriverType>} */
         let packageJson;
 
         beforeEach(function () {
@@ -394,7 +392,7 @@ describe('Manifest', function () {
       });
 
       describe('when provided a valid package.json for a plugin and its path', function () {
-        /** @type {ExtensionPackageJson<PluginType>} */
+        /** @type {ExtPackageJson<PluginType>} */
         let packageJson;
         beforeEach(function () {
           packageJson = {
@@ -552,15 +550,5 @@ describe('Manifest', function () {
 
 /**
  * @template T
- * @typedef {import('../../../lib/extension/manifest').ExtData<T>} ExtData
- */
-
-/**
- * @template T
- * @typedef {import('../../../lib/extension/manifest').ExtensionPackageJson<T>} ExtensionPackageJson
- */
-
-/**
- * @typedef {import('../../../lib/extension/manifest').DriverType} DriverType
- * @typedef {import('../../../lib/extension/manifest').PluginType} PluginType
+ * @typedef {import('../../../lib/types').ExtPackageJson<T>} ExtPackageJson
  */

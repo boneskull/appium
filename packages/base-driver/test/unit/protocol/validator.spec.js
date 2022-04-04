@@ -1,5 +1,3 @@
-// transpile:mocha
-
 import { validators } from '../../../lib/protocol/validators';
 
 

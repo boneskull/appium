@@ -115,6 +115,13 @@ class AppiumDriver extends DriverCore {
     return this._log;
   }
 
+  get desiredCapConstraints () {
+    return this._desiredCapConstraints;
+  }
+
+  set desiredCapConstraints (value) {
+    this._desiredCapConstraints = value;
+  }
 
   /**
    * Cancel commands queueing for the umbrella Appium driver
@@ -374,7 +381,7 @@ class AppiumDriver extends DriverCore {
 
   /**
    *
-   * @param {import('../types/extension').DriverClass} InnerDriver
+   * @param {import('@appium/base-driver').DriverClass} InnerDriver
    * @returns {Promise<DriverData[]>}}
    */
   async curSessionDataForDriver (InnerDriver) {
@@ -747,9 +754,8 @@ export { AppiumDriver };
  * @typedef {import('@appium/types').DriverOpts} DriverOpts
  * @typedef {import('@appium/types').Constraints} Constraints
  * @typedef {import('@appium/types').AppiumServer} AppiumServer
- * @typedef {import('../types').ExtensionType} ExtensionType
- * @typedef {import('../types/extension').PluginClass} PluginClass
  * @typedef {import('./extension/driver-config').DriverConfig} DriverConfig
+ * @typedef {import('@appium/base-driver').PluginClass} PluginClass
  */
 
 /**

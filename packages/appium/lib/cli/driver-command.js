@@ -5,7 +5,7 @@ import '@colors/colors';
 
 const REQ_DRIVER_FIELDS = ['driverName', 'automationName', 'platformNames', 'mainClass'];
 /**
- * @extends {ExtensionCommand<import('../extension/manifest').DriverType>}
+ * @extends {ExtensionCommand<DriverType>}
  */
 export default class DriverCommand extends ExtensionCommand {
 
@@ -54,7 +54,8 @@ export default class DriverCommand extends ExtensionCommand {
 }
 
 /**
+ * Options for {@linkcode DriverCommand} constructor.
  * @typedef DriverCommandOptions
- * @property {import('../extension/extension-config').ExtensionConfig<import('../extension/manifest').DriverType>} config
+ * @property {import('../extension/extension-config').ExtensionConfig<DriverType>} config
  * @property {boolean} json
  */

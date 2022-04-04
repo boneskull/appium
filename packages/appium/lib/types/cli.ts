@@ -8,7 +8,7 @@ import {
   EXT_SUBCOMMAND_UPDATE,
   PLUGIN_TYPE as PLUGIN_SUBCOMMAND,
   SERVER_SUBCOMMAND,
-} from '../lib/constants';
+} from '../constants';
 
 /**
  * Possible subcommands for the `appium` CLI.

@@ -44,7 +44,7 @@ describe('FakeDriver - via HTTP', function () {
   let appiumHome;
   // since we update the FakeDriver.prototype below, make sure we update the FakeDriver which is
   // actually going to be required by Appium
-  /** @type {import('../../types/extension').DriverClass} */
+  /** @type {import('@appium/base-driver').DriverClass} */
   let FakeDriver;
   /** @type {string} */
   let testServerBaseSessionUrl;
@@ -85,7 +85,7 @@ describe('FakeDriver - via HTTP', function () {
   /**
    *
    * @param {number} port
-   * @param {Partial<import('../../types/cli').ParsedArgs>} [args]
+   * @param {Partial<import('../../lib/types').ParsedArgs>} [args]
    */
   async function serverStart (port, args = {}) {
     args = {...args, port, address: TEST_HOST};

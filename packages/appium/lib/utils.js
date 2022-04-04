@@ -45,9 +45,9 @@ function parseCapsForInnerDriver (jsonwpCapabilities, w3cCapabilities, constrain
     (_.has(w3cCapabilities, 'alwaysMatch') || _.has(w3cCapabilities, 'firstMatch'));
   const hasJSONWPCaps = _.isPlainObject(jsonwpCapabilities);
   let desiredCaps = /** @type {ParsedDriverCaps['desiredCaps']} */({});
-  /** @type {ParsedDriverCaps['processedW3CCapabilities']} */
+  /** @type {W3CCapabilities|undefined} */
   let processedW3CCapabilities;
-  /** @type {ParsedDriverCaps['processedJsonwpCapabilities']} */
+  /** @type {any} */
   let processedJsonwpCapabilities;
 
   if (!hasW3CCaps) {
@@ -162,7 +162,7 @@ function insertAppiumPrefixes (caps) {
 
 /**
  *
- * @param {AppiumW3CCapabilities} caps
+ * @param {Capabilities} caps
  * @returns {Capabilities}
  */
 function removeAppiumPrefixes (caps) {
@@ -233,13 +233,13 @@ export {
  * @property {Capabilities} desiredCaps
  * @property {string} protocol
  * @property {any} [processedJsonwpCapabilities]
- * @property {W3CCapabilities} [processedW3CCapabilities]
+ * @property {W3CCapabilities} processedW3CCapabilities
  */
 
 /**
  * @todo protocol is more specific
  * @typedef InvalidCaps
- * @property {Error} error
+ * @property {any} error
  * @property {string} protocol
  * @property {Capabilities} [desiredCaps]
  * @property {any} [processedJsonwpCapabilities]

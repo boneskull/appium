@@ -697,10 +697,6 @@ export const {isAllowedSchemaFileExtension} = AppiumSchema;
  */
 
 /**
- * @typedef {import('../extension/manifest').ExtensionType} ExtensionType
- */
-
-/**
  * An object having property `additionalProperties: false`
  * @typedef StrictProp
  * @property {false} additionalProperties

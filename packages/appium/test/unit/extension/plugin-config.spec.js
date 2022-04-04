@@ -152,8 +152,8 @@ describe('PluginConfig', function () {
         it('should return an array having an associated problem', function () {
           expect(
             pluginConfig.getSchemaProblems(
-              // @ts-expect-error
               {
+                // @ts-expect-error
                 schema: [],
                 mainClass: 'Asdsh',
                 pkgName: 'yodel',
@@ -234,7 +234,7 @@ describe('PluginConfig', function () {
       });
 
       describe('when provided an object `schema` property', function () {
-        /** @type {ExtDataWithSchema<PluginType>} */
+        /** @type {ExtManifestWithSchema<PluginType>} */
         let externalManifest;
 
         describe('when the object is a valid schema', function () {
@@ -287,7 +287,7 @@ describe('PluginConfig', function () {
        */
       let pluginConfig;
 
-      /** @type {ExtDataWithSchema<PluginType>} */
+      /** @type {ExtManifestWithSchema<PluginType>} */
       let extData;
 
       const extName = 'stuff';
@@ -307,7 +307,6 @@ describe('PluginConfig', function () {
 
       describe('when the extension data is missing `schema`', function () {
         it('should throw', function () {
-          // @ts-expect-error
           delete extData.schema;
           expect(() =>
             pluginConfig.readExtensionSchema(extName, extData),
@@ -347,11 +346,9 @@ describe('PluginConfig', function () {
 });
 
 /**
- * @typedef {import('../../../lib/extension/manifest').PluginType} PluginType
  * @typedef {import('../../../lib/extension/plugin-config').PluginConfig} PluginConfig
  */
 
 /**
- * @template {import('../../../lib/extension/manifest').ExtensionType} ExtType
- * @typedef {import('../../../lib/extension/manifest').ExtDataWithSchema<ExtType>} ExtDataWithSchema
+ * @template {ExtensionType} ExtType
  */

@@ -1,15 +1,4 @@
 {
-  "compilerOptions": {
-    "baseUrl": "./packages",
-    "paths": {
-      "@appium/base-driver": ["base-driver"],
-      "@appium/schema": ["schema"],
-      "@appium/support": ["support"],
-      "@appium/types": ["types"],
-      "appium": ["appium"]
-    }
-  },
-  "exclude": ["packages/**/test/**", "packages/**/build/**"],
   "files": [],
   "references": [
     {

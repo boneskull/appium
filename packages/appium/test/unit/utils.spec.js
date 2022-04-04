@@ -11,19 +11,22 @@ import logger from '../../lib/logger';
 describe('utils', function () {
   describe('parseCapsForInnerDriver()', function () {
     it('should return an error if only JSONWP provided', function () {
-      let {error, protocol} = parseCapsForInnerDriver(BASE_CAPS);
+      let {error, protocol} = /** @type {InvalidCaps} */(
+        // @ts-expect-error
+        parseCapsForInnerDriver(BASE_CAPS)
+      );
       protocol.should.equal('W3C');
       error.message.should.match(/W3C/);
     });
     it('should return W3C caps unchanged if only W3C caps were provided', function () {
-      let {desiredCaps, processedJsonwpCapabilities, processedW3CCapabilities, protocol} = parseCapsForInnerDriver(undefined, W3C_CAPS);
+      let {desiredCaps, processedJsonwpCapabilities, processedW3CCapabilities, protocol} = /** @type {ParsedDriverCaps} */(parseCapsForInnerDriver(undefined, W3C_CAPS));
       desiredCaps.should.deep.equal(BASE_CAPS);
       should.not.exist(processedJsonwpCapabilities);
       processedW3CCapabilities.should.deep.equal(W3C_CAPS);
       protocol.should.equal('W3C');
     });
     it('should return JSONWP and W3C caps if both were provided', function () {
-      let {desiredCaps, processedJsonwpCapabilities, processedW3CCapabilities, protocol} = parseCapsForInnerDriver(BASE_CAPS, W3C_CAPS);
+      let {desiredCaps, processedJsonwpCapabilities, processedW3CCapabilities, protocol} = /** @type {ParsedDriverCaps} */(parseCapsForInnerDriver(BASE_CAPS, W3C_CAPS));
       desiredCaps.should.deep.equal(BASE_CAPS);
       processedJsonwpCapabilities.should.deep.equal(BASE_CAPS);
       processedW3CCapabilities.should.deep.equal(W3C_CAPS);
@@ -42,7 +45,7 @@ describe('utils', function () {
         desiredCaps,
         processedJsonwpCapabilities,
         processedW3CCapabilities
-      } = parseCapsForInnerDriver(BASE_CAPS, W3C_CAPS, {}, defaultW3CCaps);
+      } = /** @type {ParsedDriverCaps} */(parseCapsForInnerDriver(BASE_CAPS, W3C_CAPS, {}, defaultW3CCaps));
       desiredCaps.should.deep.equal({
         ...expectedDefaultCaps,
         ...BASE_CAPS,
@@ -57,21 +60,21 @@ describe('utils', function () {
       });
     });
     it('should allow valid default capabilities', function () {
-      const res = parseCapsForInnerDriver(null, W3C_CAPS, {}, {
+      const res = /** @type {ParsedDriverCaps} */(parseCapsForInnerDriver(null, W3C_CAPS, {}, {
         'appium:foo': 'bar2',
-      });
-      res.processedW3CCapabilities.alwaysMatch['appium:foo'].should.eql('bar2');
+      }));
+      /** @type {object} */(res.processedW3CCapabilities).alwaysMatch['appium:foo'].should.eql('bar2');
     });
     it('should not allow invalid default capabilities', function () {
-      const res = parseCapsForInnerDriver(null, W3C_CAPS, {}, {
+      const res = /** @type {InvalidCaps} */(parseCapsForInnerDriver(null, W3C_CAPS, {}, {
         foo: 'bar', 'appium:foo2': 'bar2',
-      });
+      }));
       res.error.should.eql({
         jsonwpCode: 61, error: 'invalid argument', w3cStatus: 400, _stacktrace: null
       });
     });
     it('should reject if W3C caps are not passing constraints', function () {
-      const err = parseCapsForInnerDriver(undefined, W3C_CAPS, {hello: {presence: true}}).error;
+      const err = /** @type {InvalidCaps} */(parseCapsForInnerDriver(undefined, W3C_CAPS, {hello: {presence: true}})).error;
       err.message.should.match(/'hello' can't be blank/);
       _.isError(err).should.be.true;
 
@@ -84,17 +87,18 @@ describe('utils', function () {
           {'appium:hello': 'world'},
         ],
       };
-      parseCapsForInnerDriver(BASE_CAPS, w3cCaps, {hello: {presence: true}}).error.should.eql({
+      /** @type {InvalidCaps} */(parseCapsForInnerDriver(BASE_CAPS, w3cCaps, {hello: {presence: true}})).error.should.eql({
         jsonwpCode: 61, error: 'invalid argument', w3cStatus: 400, _stacktrace: null
       });
     });
     it('should add appium prefixes to W3C caps that are not standard in W3C', function () {
-      parseCapsForInnerDriver(undefined, {
+      /** @type {InvalidCaps} */(parseCapsForInnerDriver(undefined, {
         alwaysMatch: {
           platformName: 'Fake',
+          // @ts-expect-error
           propertyName: 'PROP_NAME',
         },
-      }).error.error.should.includes('invalid argument');
+      })).error.error.should.include('invalid argument');
     });
   });
 
@@ -234,3 +238,8 @@ describe('utils', function () {
     });
   });
 });
+
+/**
+ * @typedef {import('../../lib/utils').InvalidCaps} InvalidCaps
+ * @typedef {import('../../lib/utils').ParsedDriverCaps} ParsedDriverCaps
+ */

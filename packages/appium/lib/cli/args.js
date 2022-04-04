@@ -42,7 +42,7 @@ const getExtensionArgs = _.memoize(function getExtensionArgs () {
       [EXT_SUBCOMMAND_RUN]: makeRunArgs(type),
     };
   }
-  return /** @type {Record<ExtensionType, Record<import('../../types/cli').CliExtensionSubcommand,ArgumentDefinitions>>} */(extensionArgs);
+  return /** @type {Record<ExtensionType, Record<import('../types').CliExtensionSubcommand,ArgumentDefinitions>>} */(extensionArgs);
 });
 
 /**
@@ -228,11 +228,6 @@ export {
   getServerArgs,
   getExtensionArgs
 };
-
-/**
- * Alias
- * @typedef {import('../extension/manifest').ExtensionType} ExtensionType
- */
 
 /**
  * A tuple of argument aliases and argument options

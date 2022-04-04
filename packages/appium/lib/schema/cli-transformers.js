@@ -43,7 +43,7 @@ function parseCsvFile (value) {
  *
  * Use case is for when the config file can accept e.g., a `string[]`, but the
  * CLI can only take a `string` (as `argparse` seems to be limited in that
- * fashion; it also cannot understand an argument having multiple types).
+ * fashion; it also cannot understand an argument having multiple types').
  *
  * For example, the `csv` transform takes a `string` and returns a `string[]` by
  * splitting it by comma--_or_ if that `string` happens to be a

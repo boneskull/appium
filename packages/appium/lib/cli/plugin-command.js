@@ -4,6 +4,9 @@ import { KNOWN_PLUGINS } from '../constants';
 
 const REQ_PLUGIN_FIELDS = ['pluginName', 'mainClass'];
 
+/**
+ * @extends {ExtensionCommand<PluginType>}
+ */
 export default class PluginCommand extends ExtensionCommand {
 
   /**
@@ -44,13 +47,12 @@ export default class PluginCommand extends ExtensionCommand {
       throw new Error(`Installed plugin did not expose correct fields for compability ` +
                       `with Appium. Missing fields: ${JSON.stringify(missingFields)}`);
     }
-
   }
-
 }
 
 /**
+ * Options for {@linkcode PluginCommand} constructor
  * @typedef PluginCommandOptions
- * @property {import('../extension/extension-config').ExtensionConfig<import('../extension/manifest').PluginType>} config
+ * @property {import('../extension/extension-config').ExtensionConfig<PluginType>} config
  * @property {boolean} json
  */

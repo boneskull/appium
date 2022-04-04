@@ -621,3 +621,6 @@ export type Class<
   StaticMembers extends object = {},
   Args extends unknown[] = any[],
 > = _Class<Proto, Args> & StaticMembers;
+export type DriverType = 'driver';
+export type PluginType = 'plugin';
+export type ExtensionType = DriverType | PluginType;

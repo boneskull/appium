@@ -1,5 +1,3 @@
-// transpile:mocha
-
 import { server } from '../../../lib';
 import axios from 'axios';
 import { createSandbox } from 'sinon';

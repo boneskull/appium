@@ -33,8 +33,7 @@
     "lib",
     "build",
     "index.js",
-    "scripts/postinstall.js",
-    "types"
+    "scripts/postinstall.js"
   ],
   "scripts": {
     "build": "babel lib --root-mode=upward --out-dir=build/lib",

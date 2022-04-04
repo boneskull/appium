@@ -552,34 +552,8 @@ export {ExtensionCommand};
  */
 
 /**
- * @typedef {import('../../types').ExtensionType} ExtensionType
- * @typedef {import('../../types').DriverType} DriverType
- * @typedef {import('../../types').PluginType} PluginType
- */
-
-/**
- * @template {ExtensionType} ExtType
- * @typedef {import('../../types/appium-manifest').ExtRecord<ExtType>} ExtRecord
- */
-
-/**
  * @template {ExtensionType} ExtType
  * @typedef {import('../extension/extension-config').ExtensionConfig<ExtType>} ExtensionConfig
- */
-
-/**
- * @template {ExtensionType} ExtType
- * @typedef {import('../../types/external-manifest').ExtMetadata<ExtType>} ExtMetadata
- */
-
-/**
- * @template {ExtensionType} ExtType
- * @typedef {import('../../types/appium-manifest').ExtManifest<ExtType>} ExtManifest
- */
-
-/**
- * @template {ExtensionType} ExtType
- * @typedef {import('../../types/external-manifest').ExtPackageJson<ExtType>} ExtPackageJson
  */
 
 /**
@@ -591,7 +565,7 @@ export {ExtensionCommand};
 
 /**
  * Possible return value for {@linkcode ExtensionCommand.list}
- * @typedef {import('../../types/appium-manifest').InternalMetadata & ExtensionMetadata} InstalledExtensionListData
+ * @typedef {InternalMetadata & ExtensionMetadata} InstalledExtensionListData
  */
 
 /**
@@ -668,14 +642,14 @@ export {ExtensionCommand};
  * Options for {@linkcode ExtensionCommand._install}
  * @typedef InstallArgs
  * @property {string} ext - the name or spec of an extension to install
- * @property {import('../../types/appium-manifest').InstallType} installType - how to install this extension. One of the INSTALL_TYPES
+ * @property {import('../types').InstallType} installType - how to install this extension. One of the INSTALL_TYPES
  * @property {string} [packageName] - for git/github installs, the extension node package name
  */
 
 /**
  * Returned by {@linkcode ExtensionCommand.getExtensionFields}
  * @template {ExtensionType} ExtType
- * @typedef {ExtMetadata<ExtType> & { pkgName: string, version: string } & import('../../types/external-manifest').CommonMetadata} ExtensionFields
+ * @typedef {ExtMetadata<ExtType> & { pkgName: string, version: string } & CommonMetadata} ExtensionFields
  */
 
 /**

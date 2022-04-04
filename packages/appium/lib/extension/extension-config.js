@@ -417,33 +417,12 @@ export {
  */
 
 /**
- * @typedef {import('../../types').ExtensionType} ExtensionType
  * @typedef {import('./manifest').Manifest} Manifest
  */
 
 /**
  * @template T
- * @typedef {import('../../types/appium-manifest').ExtManifest<T>} ExtManifest
- */
-
-/**
- * @template T
- * @typedef {import('../../types/appium-manifest').ExtManifestWithSchema<T>} ExtManifestWithSchema
- */
-
-/**
- * @template T
- * @typedef {import('../../types/appium-manifest').ExtName<T>} ExtName
- */
-
-/**
- * @template T
- * @typedef {import('../../types/extension').ExtClass<T>} ExtClass
- */
-
-/**
- * @template T
- * @typedef {import('../../types/appium-manifest').ExtRecord<T>} ExtRecord
+ * @typedef {import('@appium/base-driver').ExtClass<T>} ExtClass
  */
 
 /**

@@ -5,7 +5,7 @@ import { createSandbox } from 'sinon';
 import { getParser } from '../../lib/cli/parser';
 import { checkNodeOk, getBuildInfo, getNonDefaultServerArgs, showBuildInfo, showConfig, validateTmpDir, warnNodeDeprecations } from '../../lib/config';
 import logger from '../../lib/logger';
-import { getDefaultsForSchema, resetSchema, registerSchema, finalizeSchema } from '../../lib/schema/schema';
+import { getDefaultsForSchema, resetSchema, registerSchema, finalizeSchema } from '../../lib/schema';
 
 describe('Config', function () {
   /** @type {sinon.SinonSandbox} */

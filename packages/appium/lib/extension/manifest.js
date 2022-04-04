@@ -1,5 +1,3 @@
-/// <reference path="../../types/appium-manifest.d.ts" />
-
 /**
  * Module containing {@link Manifest} which handles reading & writing of extension config files.
  */
@@ -445,42 +443,6 @@ export class Manifest {
 }
 
 /**
- * Type of the string referring to a driver (typically as a key or type string)
- * @typedef {import('../../types').DriverType} DriverType
- */
-
-/**
- * Type of the string referring to a plugin (typically as a key or type string)
- * @typedef {import('../../types').PluginType} PluginType
- */
-
-/**
  * @typedef SyncWithInstalledExtensionsOpts
  * @property {number} [depthLimit] - Maximum depth to recurse into subdirectories
  */
-
-/**
- * @typedef {import('../../types/appium-manifest').ManifestData} ManifestData
- * @typedef {import('../../types/appium-manifest').InternalMetadata} InternalMetadata
- */
-
-/**
- * @template T
- * @typedef {import('../../types/external-manifest').ExtPackageJson<T>} ExtPackageJson
- */
-
-/**
- * @template T
- * @typedef {import('../../types/appium-manifest').ExtManifest<T>} ExtManifest
- */
-
-/**
- * @template T
- * @typedef {import('../../types/appium-manifest').ExtRecord<T>} ExtRecord
- */
-
-/**
- * Either `driver` or `plugin` rn
- * @typedef {import('../../types').ExtensionType} ExtensionType
- */
-

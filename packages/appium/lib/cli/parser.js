@@ -99,10 +99,12 @@ class ArgParser {
    * If no subcommand is passed in, this method will inject the `server` subcommand.
    *
    * `ArgParser.prototype.parse_args` is an alias of this method.
-   * @param {string[]} [args] - Array of arguments, ostensibly from `process.argv`. Gathers args from `process.argv` if not provided.
-   * @returns {import('../../types/cli').ParsedArgs} - The parsed arguments
+   * @param {import('type-fest').Primitive[]} [argv] - Array of arguments, ostensibly from `process.argv`. Gathers args from `process.argv` if not provided.  All members will be coerced to strings before parsing.
+   * @returns {import('../types').ParsedArgs} - The parsed arguments
    */
-  parseArgs (args = process.argv.slice(2)) {
+  parseArgs (argv = process.argv.slice(2)) {
+    const args = argv.map(String);
+
     if (!NON_SERVER_ARGS.has(args[0])) {
       args.unshift(SERVER_SUBCOMMAND);
     }

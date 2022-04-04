@@ -131,6 +131,7 @@ describe('schema', function () {
       describe('when provided `type` and nonempty `schema`, but no `name`', function () {
         it('should throw a TypeError', function () {
           expect(() =>
+            // @ts-expect-error
             registerSchema(DRIVER_TYPE, undefined, {
               title: 'whoopeee',
             }),

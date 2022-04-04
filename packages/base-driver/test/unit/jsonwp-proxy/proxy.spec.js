@@ -1,5 +1,3 @@
-// transpile:mocha
-
 import { JWProxy } from '../../../lib';
 import request from './mock-request';
 import { isErrorType, errors } from '../../../lib/protocol/errors';

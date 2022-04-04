@@ -28,7 +28,6 @@
   },
   "files": [
     "index.js",
-    "index.d.ts",
     "lib",
     "static",
     "test/basedriver",

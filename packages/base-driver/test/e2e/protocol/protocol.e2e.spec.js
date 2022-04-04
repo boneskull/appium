@@ -1,5 +1,3 @@
-// transpile:mocha
-
 import {
   server, routeConfiguringFunction, errors, JWProxy, BaseDriver
 } from '../../../lib';

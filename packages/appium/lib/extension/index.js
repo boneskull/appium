@@ -37,7 +37,7 @@ export async function loadExtensions (appiumHome) {
  *
  * @param {import('./plugin-config').PluginConfig} pluginConfig - a plugin extension config
  * @param {string[]} usePlugins
- * @returns {import('../../types').PluginClass[]}
+ * @returns {import('@appium/base-driver').PluginClass[]}
  */
 export function getActivePlugins (pluginConfig, usePlugins = []) {
   return _.compact(
@@ -72,6 +72,7 @@ export function getActivePlugins (pluginConfig, usePlugins = []) {
  *
  * @param {import('./driver-config').DriverConfig} driverConfig - a driver extension config
  * @param {string[]} [useDrivers] - optional list of drivers to load
+ * @returns {import('@appium/base-driver').DriverClass[]}
  */
 export function getActiveDrivers (driverConfig, useDrivers = []) {
   return _.compact(

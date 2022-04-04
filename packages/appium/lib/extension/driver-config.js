@@ -27,6 +27,9 @@ export class DriverConfig extends ExtensionConfig {
    */
    static _instances = new WeakMap();
 
+   /** @type {ExtRecord<DriverType>} */
+   installedExtensions;
+
    /**
    * Call {@link DriverConfig.create} instead.
    * @private
@@ -176,7 +179,7 @@ export class DriverConfig extends ExtensionConfig {
    * Given an automation name and platform name, find a suitable driver and return its extension data.
    * @param {string} matchAutomationName
    * @param {string} matchPlatformName
-   * @returns {ExtMetadata<DriverType> & import('../../types/appium-manifest').InternalMetadata & import('../../types/external-manifest').CommonMetadata}
+   * @returns {ExtMetadata<DriverType> & InternalMetadata & CommonMetadata}
    */
    _getDriverBySupport (matchAutomationName, matchPlatformName) {
      const drivers = this.installedExtensions;
@@ -204,46 +207,21 @@ export class DriverConfig extends ExtensionConfig {
 }
 
 /**
+ * Options for {@linkcode DriverConfig} constructor.
  * @typedef DriverConfigOptions
  * @property {import('./extension-config').ExtensionLogFn} [logFn] - Optional logging function
- * @property {ManifestData['drivers']} [extData] - Extension data
+ * @property {import('../types').DriverRecord} [extData] - Extension data
  */
 
 /**
- * @template T
- * @typedef {import('../../types').ExtMetadata<T>} ExtMetadata
- */
-
-/**
- * @template T
- * @typedef {import('../../types').ExtManifest<T>} ExtManifest
- */
-
-/**
- * @typedef {import('../../types').ManifestData} ManifestData
- * @typedef {import('../../types').DriverType} DriverType
  * @typedef {import('./manifest').Manifest} Manifest
+ * @typedef {import('@appium/types').Capabilities} Capabilities
  */
-
-/**
- * @template T
- * @typedef {import('../../types').ExtRecord<T>} ExtRecord
- */
-
-/**
- * @template T
- * @typedef {import('../../types').ExtName<T>} ExtName
- */
-
 
 /**
  * Return value of {@linkcode DriverConfig.findMatchingDriver}
  * @typedef MatchedDriver
- * @property {import('../../types/extension').DriverClass} driver
+ * @property {import('@appium/base-driver').DriverClass} driver
  * @property {string} version
  * @property {string} driverName
- */
-
-/**
- * @typedef {import('@appium/types').Capabilities} Capabilities
  */

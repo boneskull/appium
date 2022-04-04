@@ -266,7 +266,7 @@ describe('CLI behavior', function () {
           ]);
           const {fake} = /** @type {Record<string,import('../../lib/cli/extension-command').InstalledExtensionListData>} */(await runList(['--updates']));
           util.compareVersions(
-            fake.updateVersion,
+            /** @type {string} */(fake.updateVersion),
             '>',
             penultimateFakeDriverVersionAsOfRightNow,
           ).should.be.true;
@@ -555,21 +555,12 @@ describe('CLI behavior', function () {
 });
 
 /**
- * @typedef {import('../../lib/extension/manifest').ExtensionType} ExtensionType
- * @typedef {import('../../lib/extension/manifest').ManifestData} ManifestData
- * @typedef {import('../../lib/extension/manifest').DriverType} DriverType
- * @typedef {import('../../lib/extension/manifest').PluginType} PluginType
  * @typedef {import('../../lib/cli/extension-command').ExtensionListData} ExtensionListData
  * @typedef {import('./e2e-helpers').CliArgs} CliArgs
- * @typedef {import('../../types/cli').CliExtensionSubcommand} CliExtensionSubcommand
+ * @typedef {import('../../lib/types').CliExtensionSubcommand} CliExtensionSubcommand
  */
 
 /**
  * @template ExtSubCommand
  * @typedef {import('./e2e-helpers').CliExtArgs<ExtSubCommand>} CliExtArgs
- */
-
-/**
- * @template T
- * @typedef {import('../../lib/extension/manifest').ExtRecord<T>} ExtRecord
  */

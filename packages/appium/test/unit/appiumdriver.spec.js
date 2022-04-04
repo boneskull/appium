@@ -183,7 +183,6 @@ describe('AppiumDriver', function () {
           ...W3C_CAPS,
           alwaysMatch: {
             ...W3C_CAPS.alwaysMatch,
-            // @ts-expect-error
             'appium:someOtherParm': 'someOtherParm',
           },
         };

@@ -16,7 +16,7 @@ const commandClasses = Object.freeze(/** @type {const} */({
  *
  * @param {Object} args - JS object where the key is the parameter name (as defined in
  * driver-parser.js)
- * @template {import('../extension/manifest').ExtensionType} ExtType
+ * @template {ExtensionType} ExtType
  * @param {import('../extension/extension-config').ExtensionConfig<ExtType>} configObject - Extension config object
  */
 async function runExtensionCommand (args, configObject) {
@@ -32,7 +32,7 @@ async function runExtensionCommand (args, configObject) {
   if (suppressOutput) {
     json = true;
   }
-  const logFn = (msg) => log(json, msg);
+  const logFn = (/** @type {string} */ msg) => log(json, msg);
   let config = configObject;
   config.log = logFn;
   const CommandClass = /** @type {ExtCommand<ExtType>} */(commandClasses[type]);
@@ -60,6 +60,6 @@ export {
 };
 
 /**
- * @template {import('../../types').ExtensionType} ExtType
- * @typedef {ExtType extends import('../../types').DriverType ? import('@appium/types').Class<DriverCommand> : ExtType extends import('../../types').PluginType ? import('@appium/types').Class<PluginCommand> : never} ExtCommand
+ * @template {ExtensionType} ExtType
+ * @typedef {ExtType extends DriverType ? import('@appium/types').Class<DriverCommand> : ExtType extends PluginType ? import('@appium/types').Class<PluginCommand> : never} ExtCommand
  */

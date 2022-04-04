@@ -66,3 +66,19 @@ export { processCapabilities, isStandardCap, validateCaps };
 import * as ws from './express/websocket';
 const { DEFAULT_WS_PATHNAME_PREFIX } = ws;
 export { DEFAULT_WS_PATHNAME_PREFIX };
+
+/**
+ * @template [Proto={}]
+ * @template [Static={}]
+ * @typedef {import('./basedriver/driver').BaseDriverBase<Proto, Static>} BaseDriverBase
+ */
+
+/**
+ * @typedef {import('./types').DriverClass} DriverClass
+ * @typedef {import('./types').PluginClass} PluginClass
+ */
+
+/**
+ * @template {import('@appium/types').ExtensionType} ExtType
+ * @typedef {import('./types').ExtClass<ExtType>} ExtClass
+ */

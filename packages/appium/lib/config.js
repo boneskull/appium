@@ -18,7 +18,7 @@ const GIT_BINARY = `git${system.isWindows() ? '.exe' : ''}`;
 const GITHUB_API = 'https://api.github.com/repos/appium/appium';
 
 /**
- * @type {import('../types/cli').BuildInfo}
+ * @type {import('./types').BuildInfo}
  */
 const BUILD_INFO = {
   version: APPIUM_VER,
@@ -126,7 +126,7 @@ async function getGitTimestamp (commitSha, useGithubApiFallback = false) {
  * only contains the Appium version, but is updated with the build timestamp
  * and git commit hash asynchronously as soon as `updateBuildInfo` is called
  * and succeeds.
- * @returns {import('../types/cli').BuildInfo}
+ * @returns {import('./types').BuildInfo}
  */
 function getBuildInfo () {
   return BUILD_INFO;
@@ -306,7 +306,7 @@ export {
 };
 
 /**
- * @typedef {import('../types/cli').ParsedArgs} ParsedArgs
+ * @typedef {import('./types').ParsedArgs} ParsedArgs
  * @typedef {import('./schema/arg-spec').ArgSpec} ArgSpec
  */
 

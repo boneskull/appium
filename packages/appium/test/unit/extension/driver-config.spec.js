@@ -297,7 +297,7 @@ describe('DriverConfig', function () {
        */
       let driverConfig;
 
-      /** @type {ExtDataWithSchema<DriverType>} */
+      /** @type {ExtManifestWithSchema<DriverType>} */
       let extData;
 
       const extName = 'stuff';
@@ -349,11 +349,5 @@ describe('DriverConfig', function () {
 });
 
 /**
- * @typedef {import('../../../lib/extension/manifest').DriverType} DriverType
  * @typedef {import('../../../lib/extension/driver-config').DriverConfig} DriverConfig
- */
-
-/**
- * @template {import('../../../lib/extension/manifest').ExtensionType} ExtType
- * @typedef {import('../../../lib/extension/manifest').ExtDataWithSchema<ExtType>} ExtDataWithSchema
  */

@@ -1,5 +1,3 @@
-// transpile:mocha
-
 import { JWProxy } from '../../../lib';
 import { getTestPort, TEST_HOST, createAppiumURL } from '../../helpers';
 import _ from 'lodash';

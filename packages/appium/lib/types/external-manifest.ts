@@ -4,7 +4,6 @@
 
 import { SchemaObject } from 'ajv';
 import { PackageJson, SetRequired } from 'type-fest';
-import { DriverType, ExtensionType, PluginType } from './index';
 
 /**
  * This is what is allowed in the `appium.schema` prop of an extension's `package.json`.

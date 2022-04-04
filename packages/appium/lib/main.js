@@ -122,7 +122,7 @@ function getServerUpdaters (driverClasses, pluginClasses) {
  */
 function getExtraMethodMap (driverClasses, pluginClasses) {
   return [...driverClasses, ...pluginClasses].reduce(
-    (map, klass) => ({...map, ...klass.newMethodMap}),
+    (map, klass) => ({...map, .../** @type {DriverClass} */(klass).newMethodMap ?? {}}),
     {}
   );
 }
@@ -339,15 +339,10 @@ export { finalizeSchema, getSchema, validate } from './schema/schema';
 export { main, init, resolveAppiumHome };
 
 /**
- * @typedef {import('../types/cli').ParsedArgs} ParsedArgs
- */
-
-/**
- * @typedef {import('../types/cli').PartialArgs} PartialArgs
- * @typedef {import('../types').DriverType} DriverType
- * @typedef {import('../types').PluginType} PluginType
- * @typedef {import('../types/extension').DriverClass} DriverClass
- * @typedef {import('../types/extension').PluginClass} PluginClass
+ * @typedef {import('./types').ParsedArgs} ParsedArgs
+ * @typedef {import('./types').PartialArgs} PartialArgs
+ * @typedef {import('@appium/base-driver').DriverClass} DriverClass
+ * @typedef {import('@appium/base-driver').PluginClass} PluginClass
  */
 
 /**
@@ -356,11 +351,6 @@ export { main, init, resolveAppiumHome };
  */
 
 /**
- * @typedef ServerInitData
- * @property {AppiumDriver} appiumDriver - The Appium driver
- * @property {ParsedArgs} parsedArgs - The parsed arguments
- */
-
-/**
- * @typedef {ServerInitData & import('./extension').ExtensionConfigs} ServerInitResult
+ * The result of calling {@linkcode init} when `server` subcommand is present.
+ * @typedef { {appiumDriver: AppiumDriver, parsedArgs: ParsedArgs} & import('./extension').ExtensionConfigs } ServerInitResult
  */

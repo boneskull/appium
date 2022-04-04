@@ -1,5 +1,3 @@
-// transpile:main
-
 import {
   isSessionCommand, routeConfiguringFunction, determineProtocol,
   CREATE_SESSION_COMMAND, DELETE_SESSION_COMMAND, GET_STATUS_COMMAND

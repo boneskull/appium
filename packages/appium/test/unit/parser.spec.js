@@ -11,6 +11,7 @@ const DENY_FIXTURE = resolveFixture('deny-feat.txt');
 const CAPS_FIXTURE = resolveFixture('caps.json');
 
 describe('parser', function () {
+  /** @type {import('../../lib/cli/parser').ArgParser} */
   let p;
 
   describe('Main Parser', function () {
@@ -76,13 +77,13 @@ describe('parser', function () {
       it('should parse default capabilities correctly from a string', function () {
         let defaultCapabilities = {a: 'b'};
         let args = p.parseArgs(['--default-capabilities', JSON.stringify(defaultCapabilities)]);
-        args.defaultCapabilities.should.eql(defaultCapabilities);
+        /** @type {DefaultCapabilitiesConfig} */(args.defaultCapabilities).should.eql(defaultCapabilities);
       });
 
       it('should parse default capabilities correctly from a file', function () {
         let defaultCapabilities = {a: 'b'};
         let args = p.parseArgs(['--default-capabilities', CAPS_FIXTURE]);
-        args.defaultCapabilities.should.eql(defaultCapabilities);
+        /** @type {DefaultCapabilitiesConfig} */(args.defaultCapabilities).should.eql(defaultCapabilities);
       });
 
       it('should throw an error with invalid arg to default capabilities', function () {
@@ -150,12 +151,15 @@ describe('parser', function () {
         const fakeDriverArgs = {fake: {sillyWebServerPort: 1234, sillyWebServerHost: 'hey'}};
         const args = p.parseArgs([
           '--driver-fake-silly-web-server-port',
-          fakeDriverArgs.fake.sillyWebServerPort,
+          String(fakeDriverArgs.fake.sillyWebServerPort),
           '--driver-fake-silly-web-server-host',
           fakeDriverArgs.fake.sillyWebServerHost
         ]);
 
-        args.driver.fake.should.eql(config.driver.fake);
+        const driverConfig = /** @type {import('@appium/types').DriverConfig} */(/** @type {NormalizedAppiumConfig} */(config).server.driver);
+
+        /** @type {typeof fakeDriverArgs} */(driverConfig.fake).should.eql(fakeDriverArgs.fake);
+        /** @type {typeof fakeDriverArgs} */(args.driver).fake.should.eql(driverConfig.fake);
       });
 
       it('should not yet apply defaults', function () {
@@ -320,3 +324,8 @@ describe('parser', function () {
     });
   });
 });
+
+/**
+ * @typedef {import('@appium/types').NormalizedAppiumConfig} NormalizedAppiumConfig
+ * @typedef {import('@appium/types').DefaultCapabilitiesConfig} DefaultCapabilitiesConfig
+ */

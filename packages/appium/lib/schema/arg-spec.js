@@ -226,7 +226,3 @@ export class ArgSpec {
  * @property {string} [dest]
  * @property {D} [defaultValue]
  */
-
-/**
- * @typedef {import('../extension/manifest').ExtensionType} ExtensionType
- */
