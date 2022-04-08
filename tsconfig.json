@@ -6,6 +6,7 @@
       "@appium/schema": ["schema"],
       "@appium/support": ["support"],
       "@appium/types": ["types"],
+      "@appium/test-support": ["test-support"],
       "appium": ["appium"]
     }
   },
@@ -26,6 +27,9 @@
     },
     {
       "path": "packages/schema"
+    },
+    {
+      "path": "packages/test-support"
     }
   ]
 }
