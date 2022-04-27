@@ -2,9 +2,11 @@
   "compilerOptions": {
     "outDir": "./build",
     "paths": {
-      "appium": ["../appium"]
+      "appium": ["../appium"],
+      "@appium/types": ["../types"]
     }
   },
   "extends": "../../config/tsconfig.base.json",
-  "include": ["lib"]
+  "include": ["lib"],
+  "references": [{"path": "../types"}, {"path": "../appium"}]
 }

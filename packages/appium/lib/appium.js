@@ -139,15 +139,15 @@ class AppiumDriver extends DriverCore {
     return this.sessions[sessionId];
   }
 
+  // eslint-disable-next-line require-await
   async getStatus() {
-    // eslint-disable-line require-await
     return {
       build: _.clone(getBuildInfo()),
     };
   }
 
+  // eslint-disable-next-line require-await
   async getSessions() {
-    // eslint-disable-line require-await
     return _.toPairs(this.sessions).map(([id, driver]) => ({
       id,
       capabilities: driver.caps,
@@ -179,9 +179,11 @@ class AppiumDriver extends DriverCore {
    * If the extension has provided a schema, validation has already happened.
    *
    * Any arg which is equal to its default value will not be assigned to the extension.
-   * @param {ExtensionType} extType 'driver' or 'plugin'
+   * @template {ExtensionType} ExtType
+   * @param {ExtType} extType 'driver' or 'plugin'
    * @param {string} extName the name of the extension
-   * @param {Object} extInstance the driver or plugin instance
+   * @param {InstanceType<import('../types').ExtClass<ExtType>>} extInstance the driver or plugin instance
+   * @returns {void}
    */
   assignCliArgsToExtension(extType, extName, extInstance) {
     const allCliArgsForExt = /** @type {Record<string,unknown>|undefined} */ (
@@ -383,6 +385,11 @@ class AppiumDriver extends DriverCore {
     };
   }
 
+  /**
+   *
+   * @param {import('@appium/types').Driver} driver
+   * @param {string} innerSessionId
+   */
   attachUnexpectedShutdownHandler(driver, innerSessionId) {
     const onShutdown = (cause = new Error('Unknown error')) => {
       this.log.warn(`Ending session, cause was '${cause.message}'`);
@@ -427,9 +434,10 @@ class AppiumDriver extends DriverCore {
 
   /**
    *
-   * @param {import('@appium/base-driver').DriverClass} InnerDriver
+   * @param {import('@appium/types').DriverClass} InnerDriver
    * @returns {Promise<DriverData[]>}}
    */
+  // eslint-disable-next-line require-await
   async curSessionDataForDriver(InnerDriver) {
     // eslint-disable-line require-await
     const data = _.compact(
@@ -851,7 +859,6 @@ export {AppiumDriver};
  * @typedef {import('@appium/types').Constraints} Constraints
  * @typedef {import('@appium/types').AppiumServer} AppiumServer
  * @typedef {import('@appium/types').ExtensionType} ExtensionType
- * @typedef {import('appium/types').PluginClass} PluginClass
  * @typedef {import('./extension/driver-config').DriverConfig} DriverConfig
  */
 
@@ -867,4 +874,9 @@ export {AppiumDriver};
 
 /**
  * @typedef {import('@appium/types').SessionHandler<SessionHandlerResult<any[]>,SessionHandlerResult<void>>} SessionHandler
+ */
+
+/**
+ * @typedef {import('@appium/types').Plugin} Plugin
+ * @typedef {import('@appium/types').PluginClass} PluginClass
  */

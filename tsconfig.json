@@ -43,6 +43,9 @@
     },
     {
       "path": "packages/docutils"
+    },
+    {
+      "path": "packages/test-support"
     }
   ]
 }

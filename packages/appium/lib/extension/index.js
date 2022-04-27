@@ -17,7 +17,7 @@ import B from 'bluebird';
  * @param {string} appiumHome
  * @returns {Promise<ExtensionConfigs>}
  */
-export async function loadExtensions(appiumHome) {
+export async function loadExtensions (appiumHome) {
   const manifest = Manifest.getInstance(appiumHome);
   await manifest.read();
   const driverConfig =
@@ -37,9 +37,9 @@ export async function loadExtensions(appiumHome) {
  *
  * @param {import('./plugin-config').PluginConfig} pluginConfig - a plugin extension config
  * @param {string[]} usePlugins
- * @returns {import('appium/types').PluginClass[]}
+ * @returns {import('@appium/types').PluginClass[]}
  */
-export function getActivePlugins(pluginConfig, usePlugins = []) {
+export function getActivePlugins (pluginConfig, usePlugins = []) {
   return _.compact(
     Object.keys(pluginConfig.installedExtensions)
       .filter(
@@ -73,7 +73,7 @@ export function getActivePlugins(pluginConfig, usePlugins = []) {
  * @param {import('./driver-config').DriverConfig} driverConfig - a driver extension config
  * @param {string[]} [useDrivers] - optional list of drivers to load
  */
-export function getActiveDrivers(driverConfig, useDrivers = []) {
+export function getActiveDrivers (driverConfig, useDrivers = []) {
   return _.compact(
     Object.keys(driverConfig.installedExtensions)
       .filter(

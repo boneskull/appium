@@ -1,21 +1,22 @@
-// @ts-check
 /* eslint-disable require-await */
 /* eslint-disable no-unused-vars */
 
-import { DriverCore } from './core';
-import { util } from '@appium/support';
-import B from 'bluebird';
-import _ from 'lodash';
-import { fixCaps, isW3cCaps } from '../helpers/capabilities';
-import { DELETE_SESSION_COMMAND, determineProtocol, errors } from '../protocol';
 import {
+  validateCaps,
   APPIUM_OPTS_CAP,
   PREFIXED_APPIUM_OPTS_CAP,
   processCapabilities,
-  promoteAppiumOptions
+  promoteAppiumOptions,
 } from './capabilities';
-import { createBaseDriverClass } from './commands';
+import {DriverCore} from './core';
+import {util} from '@appium/support';
+import B from 'bluebird';
+import _ from 'lodash';
+import {fixCaps, isW3cCaps} from '../helpers/capabilities';
+import {DELETE_SESSION_COMMAND, determineProtocol, errors} from '../protocol';
+import {createBaseDriverClass} from './commands';
 import helpers from './helpers';
+import {desiredCapabilityConstraints} from './desired-caps';
 
 const EVENT_SESSION_INIT = 'newSessionRequested';
 const EVENT_SESSION_START = 'newSessionStarted';
@@ -23,11 +24,11 @@ const EVENT_SESSION_QUIT_START = 'quitSessionRequested';
 const EVENT_SESSION_QUIT_DONE = 'quitSessionFinished';
 const ON_UNEXPECTED_SHUTDOWN_EVENT = 'onUnexpectedShutdown';
 
-
 /**
  * @implements {SessionHandler}
  */
 export class BaseDriverCore extends DriverCore {
+  _constraints = _.cloneDeep(desiredCapabilityConstraints);
 
   /** @type {Record<string,any>|undefined} */
   cliArgs;
@@ -37,11 +38,11 @@ export class BaseDriverCore extends DriverCore {
   // and ensuring that we execute commands one at a time. This method is called
   // by MJSONWP's express router.
   /**
-    * @param {string} cmd
-    * @param  {...any[]} args
-    * @returns {Promise<any>}
-    */
-  async executeCommand (cmd, ...args) {
+   * @param {string} cmd
+   * @param  {...any} args
+   * @returns {Promise<any>}
+   */
+  async executeCommand(cmd, ...args) {
     // get start time for this command, and log in special cases
     let startTime = Date.now();
 
@@ -59,7 +60,7 @@ export class BaseDriverCore extends DriverCore {
 
     if (this.shutdownUnexpectedly) {
       throw new errors.NoSuchDriverError(
-          'The driver was unexpectedly shut down!',
+        'The driver was unexpectedly shut down!'
       );
     }
 
@@ -75,16 +76,16 @@ export class BaseDriverCore extends DriverCore {
         new B((resolve, reject) => {
           unexpectedShutdownListener = reject;
           this.eventEmitter.on(
-              ON_UNEXPECTED_SHUTDOWN_EVENT,
-              unexpectedShutdownListener,
+            ON_UNEXPECTED_SHUTDOWN_EVENT,
+            unexpectedShutdownListener
           );
         }),
       ]).finally(() => {
         if (unexpectedShutdownListener) {
           // This is needed to prevent memory leaks
           this.eventEmitter.removeListener(
-              ON_UNEXPECTED_SHUTDOWN_EVENT,
-              unexpectedShutdownListener,
+            ON_UNEXPECTED_SHUTDOWN_EVENT,
+            unexpectedShutdownListener
           );
           unexpectedShutdownListener = null;
         }
@@ -117,13 +118,11 @@ export class BaseDriverCore extends DriverCore {
   }
 
   /**
-    *
-    * @param {Error} err
-    */
-  async startUnexpectedShutdown (
-    err = new errors.NoSuchDriverError(
-        'The driver was unexpectedly shut down!',
-    ),
+   *
+   * @param {Error} err
+   */
+  async startUnexpectedShutdown(
+    err = new errors.NoSuchDriverError('The driver was unexpectedly shut down!')
   ) {
     this.eventEmitter.emit(ON_UNEXPECTED_SHUTDOWN_EVENT, err); // allow others to listen for this
     this.shutdownUnexpectedly = true;
@@ -136,7 +135,7 @@ export class BaseDriverCore extends DriverCore {
     }
   }
 
-  async startNewCommandTimeout () {
+  async startNewCommandTimeout() {
     // make sure there are no rogue timeouts
     await this.clearNewCommandTimeout();
 
@@ -146,7 +145,7 @@ export class BaseDriverCore extends DriverCore {
     this.noCommandTimer = setTimeout(async () => {
       this.log.warn(
         `Shutting down because we waited ` +
-          `${this.newCommandTimeoutMs / 1000.0} seconds for a command`,
+          `${this.newCommandTimeoutMs / 1000.0} seconds for a command`
       );
       const errorMessage =
         `New Command Timeout of ` +
@@ -164,7 +163,7 @@ export class BaseDriverCore extends DriverCore {
    * @param {number} port
    * @param {string} path
    */
-  assignServer (server, host, port, path) {
+  assignServer(server, host, port, path) {
     this.server = server;
     this.serverHost = host;
     this.serverPort = port;
@@ -172,10 +171,10 @@ export class BaseDriverCore extends DriverCore {
   }
 
   /*
-    * Restart the session with the original caps,
-    * preserving the timeout config.
-    */
-  async reset () {
+   * Restart the session with the original caps,
+   * preserving the timeout config.
+   */
+  async reset() {
     this.log.debug('Resetting app mid-session');
     this.log.debug('Running generic full reset');
 
@@ -209,40 +208,38 @@ export class BaseDriverCore extends DriverCore {
   }
 
   /**
-     *
-     * Historically the first two arguments were reserved for JSONWP capabilities.
-     * Appium 2 has dropped the support of these, so now we only accept capability
-     * objects in W3C format and thus allow any of the three arguments to represent
-     * the latter.
-     * @param {W3CCapabilities} w3cCapabilities1
-     * @param {W3CCapabilities} [w3cCapabilities2]
-     * @param {W3CCapabilities} [w3cCapabilities]
-     * @param {DriverData[]} [driverData]
-     * @returns {Promise<[string,object]>}
-     */
-  async createSession (
+   *
+   * Historically the first two arguments were reserved for JSONWP capabilities.
+   * Appium 2 has dropped the support of these, so now we only accept capability
+   * objects in W3C format and thus allow any of the three arguments to represent
+   * the latter.
+   * @param {W3CCapabilities} w3cCapabilities1
+   * @param {W3CCapabilities} [w3cCapabilities2]
+   * @param {W3CCapabilities} [w3cCapabilities]
+   * @param {DriverData[]} [driverData]
+   * @returns {Promise<[string,object]>}
+   */
+  async createSession(
     w3cCapabilities1,
     w3cCapabilities2,
     w3cCapabilities,
-    driverData,
+    driverData
   ) {
     if (this.sessionId !== null) {
       throw new errors.SessionNotCreatedError(
-           'Cannot create a new session while one is in progress',
+        'Cannot create a new session while one is in progress'
       );
     }
 
     this.log.debug();
 
-    const originalCaps = _.cloneDeep([
-      w3cCapabilities,
-      w3cCapabilities1,
-      w3cCapabilities2,
-    ].find(isW3cCaps));
+    const originalCaps = _.cloneDeep(
+      [w3cCapabilities, w3cCapabilities1, w3cCapabilities2].find(isW3cCaps)
+    );
     if (!originalCaps) {
       throw new errors.SessionNotCreatedError(
-           'Appium only supports W3C-style capability objects. ' +
-             'Your client is sending an older capabilities format. Please update your client library.',
+        'Appium only supports W3C-style capability objects. ' +
+          'Your client is sending an older capabilities format. Please update your client library.'
       );
     }
 
@@ -253,20 +250,20 @@ export class BaseDriverCore extends DriverCore {
       `Creating session with W3C capabilities: ${JSON.stringify(
         originalCaps,
         null,
-        2,
-      )}`,
+        2
+      )}`
     );
 
     let caps;
     try {
       caps = processCapabilities(
-           originalCaps,
-           this.desiredCapConstraints,
-           this.shouldValidateCaps,
+        originalCaps,
+        this.desiredCapConstraints,
+        this.shouldValidateCaps
       );
       if (caps[APPIUM_OPTS_CAP]) {
         this.log.debug(
-             `Found ${PREFIXED_APPIUM_OPTS_CAP} capability present; will promote items inside to caps`,
+          `Found ${PREFIXED_APPIUM_OPTS_CAP} capability present; will promote items inside to caps`
         );
         caps = promoteAppiumOptions(caps);
       }
@@ -289,9 +286,9 @@ export class BaseDriverCore extends DriverCore {
     // both to true, but this is misguided and strange, so error here instead
     if (this.opts.noReset && this.opts.fullReset) {
       throw new Error(
-           "The 'noReset' and 'fullReset' capabilities are mutually " +
-             'exclusive and should not both be set to true. You ' +
-             "probably meant to just use 'fullReset' on its own",
+        "The 'noReset' and 'fullReset' capabilities are mutually " +
+          'exclusive and should not both be set to true. You ' +
+          "probably meant to just use 'fullReset' on its own"
       );
     }
     if (this.opts.noReset === true) {
@@ -320,12 +317,12 @@ export class BaseDriverCore extends DriverCore {
   }
 
   /**
-    *
-    * @param {string} [sessionId]
-    * @param {DriverData[]} [driverData]
-    * @returns {Promise<void>}
-    */
-  async deleteSession (sessionId, driverData) {
+   *
+   * @param {string} [sessionId]
+   * @param {DriverData[]} [driverData]
+   * @returns {Promise<void>}
+   */
+  async deleteSession(sessionId, driverData) {
     await this.clearNewCommandTimeout();
     if (this.isCommandsQueueEnabled && this.commandsQueueGuard.isBusy()) {
       // simple hack to release pending commands if they exist
@@ -338,14 +335,81 @@ export class BaseDriverCore extends DriverCore {
     this.sessionId = null;
     this._log.prefix = helpers.generateDriverLogPrefix(this);
   }
+
+  /**
+   *
+   * @param {Capabilities} caps
+   */
+  logExtraCaps(caps) {
+    let extraCaps = _.difference(_.keys(caps), _.keys(this._constraints));
+    if (extraCaps.length) {
+      this.log.warn(
+        `The following capabilities were provided, but are not ` +
+          `recognized by Appium:`
+      );
+      for (const cap of extraCaps) {
+        this.log.warn(`  ${cap}`);
+      }
+    }
+  }
+
+  /**
+   *
+   * @param {Capabilities} caps
+   * @returns {boolean}
+   */
+  validateDesiredCaps(caps) {
+    if (!this.shouldValidateCaps) {
+      return true;
+    }
+
+    try {
+      validateCaps(caps, this._constraints);
+    } catch (e) {
+      this.log.errorAndThrow(
+        new errors.SessionNotCreatedError(
+          `The desiredCapabilities object was not valid for the ` +
+            `following reason(s): ${e.message}`
+        )
+      );
+    }
+
+    this.logExtraCaps(caps);
+
+    return true;
+  }
+
+  // we only want subclasses to ever extend the contraints
+  set desiredCapConstraints(constraints) {
+    this._constraints = Object.assign(this._constraints, constraints);
+    // 'presence' means different things in different versions of the validator,
+    // when we say 'true' we mean that it should not be able to be empty
+    for (const [, value] of _.toPairs(this._constraints)) {
+      if (value && value.presence === true) {
+        value.presence = {
+          allowEmpty: false,
+        };
+      }
+    }
+  }
+
+  get desiredCapConstraints() {
+    return this._constraints;
+  }
 }
 
 /**
  * This ensures that all of the mixins correctly implement the interface described in {@linkcode Driver}.
  * @implements {Driver}
  */
-class BaseDriver extends createBaseDriverClass(BaseDriverCore) {}
-export { BaseDriver };
+class _BaseDriver extends createBaseDriverClass(BaseDriverCore) {};
+
+/**
+ * @type {import('@appium/types').DriverClass<Driver>}
+ */
+const BaseDriver = _BaseDriver;
+
+export {BaseDriver};
 export default BaseDriver;
 
 /**
@@ -356,7 +420,6 @@ export default BaseDriver;
  * @typedef {import('@appium/types').W3CCapabilities} W3CCapabilities
  * @typedef {import('@appium/types').DriverData} DriverData
  */
-
 
 /**
  * @callback UpdateServerCallback
@@ -369,16 +432,7 @@ export default BaseDriver;
  * This is used to extend {@linkcode BaseDriverCore} by the mixins and also external drivers.
  * @template [Proto={}]
  * @template [Static={}]
- * @typedef {import('@appium/types').Class<BaseDriverCore & Proto,BaseDriverStatic & Static>} BaseDriverBase
- */
-
-/**
- * Static properties of `BaseDriver` and optional properties for subclasses.
- * @template {ExternalDriver} [T=ExternalDriver]
- * @typedef BaseDriverStatic
- * @property {string} baseVersion
- * @property {UpdateServerCallback} [updateServer]
- * @property {import('@appium/types').MethodMap<T>} [newMethodMap]
+ * @typedef {import('@appium/types').Class<BaseDriverCore & Proto,import('@appium/types').DriverStatic & Static>} BaseDriverBase
  */
 
 /**

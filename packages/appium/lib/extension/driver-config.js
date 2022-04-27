@@ -247,7 +247,7 @@ export class DriverConfig extends ExtensionConfig {
 /**
  * Return value of {@linkcode DriverConfig.findMatchingDriver}
  * @typedef MatchedDriver
- * @property {import('@appium/base-driver').DriverClass} driver
+ * @property {import('@appium/types').DriverClass} driver
  * @property {string} version
  * @property {string} driverName
  */

@@ -37,7 +37,7 @@
   "tags": [
     "appium"
   ],
-  "peerDependencies": {
-    "appium": "file:../appium"
+  "dependencies": {
+    "@appium/support": "file:../support"
   }
 }

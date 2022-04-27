@@ -124,7 +124,7 @@ function logServerPort(address, port) {
  * Gets a list of `updateServer` functions from all extensions
  * @param {DriverClass[]} driverClasses
  * @param {PluginClass[]} pluginClasses
- * @returns {import('@appium/base-driver/lib/basedriver/driver').UpdateServerCallback[]}
+ * @returns {import('@appium/types').UpdateServerCallback[]}
  */
 function getServerUpdaters(driverClasses, pluginClasses) {
   return _.compact(_.map([...driverClasses, ...pluginClasses], 'updateServer'));
@@ -401,8 +401,8 @@ export {main, init, resolveAppiumHome};
 /**
  * @typedef {import('@appium/types').DriverType} DriverType
  * @typedef {import('@appium/types').PluginType} PluginType
- * @typedef {import('@appium/base-driver').DriverClass} DriverClass
- * @typedef {import('appium/types').PluginClass} PluginClass
+ * @typedef {import('@appium/types').DriverClass} DriverClass
+ * @typedef {import('@appium/types').PluginClass} PluginClass
  * @typedef {import('appium/types').WithServerSubcommand} WithServerSubcommand
  */
 

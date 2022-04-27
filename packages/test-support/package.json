@@ -45,20 +45,27 @@
     "test:unit": "mocha \"./test/unit/**/*.spec.js\""
   },
   "dependencies": {
-    "@appium/support": "file:../support",
     "@babel/runtime": "7.17.9",
     "bluebird": "3.7.2",
+    "get-port": "5.1.1",
     "lodash": "4.17.21",
+    "log-symbols": "4.1.0",
     "loud-rejection": "2.2.0",
     "sinon": "13.0.2",
-    "source-map-support": "0.5.21"
+    "source-map-support": "0.5.21",
+    "strip-ansi": "6.0.1",
+    "teen_process": "1.16.0"
   },
   "engines": {
     "node": ">=12",
     "npm": ">=6"
   },
+  "peerDependencies": {
+    "appium": "file:../appium"
+  },
   "publishConfig": {
     "access": "public"
   },
+  "types": "./build/lib/index.d.ts",
   "gitHead": "722ae145fb40bf17b0168ea8b025763f120ad574"
 }

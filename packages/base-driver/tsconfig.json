@@ -3,10 +3,12 @@
   "compilerOptions": {
     "outDir": "./build",
     "paths": {
+      "@appium/base-driver": ["."],
       "@appium/support": ["../support"],
       "@appium/types": ["../types"]
-    }
+    },
+    "checkJs": true
   },
-  "include": ["./lib/**/*"],
+  "include": ["lib"],
   "references": [{"path": "../support"}, {"path": "../types"}]
 }
