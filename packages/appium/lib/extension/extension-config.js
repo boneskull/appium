@@ -132,7 +132,7 @@ export class ExtensionConfig {
    * Retrieves listing data for extensions via command class.
    * Caches the result in {@linkcode ExtensionConfig._listDataCache}
    * @protected
-   * @returns {import('../cli/extension-command').ExtensionListData}
+   * @returns {Promise<import('../cli/extension-command').ExtensionListData>}
    */
   async getListData() {
     if (this._listDataCache) {

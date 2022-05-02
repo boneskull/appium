@@ -137,13 +137,12 @@ function getServerUpdaters(driverClasses, pluginClasses) {
  * @returns {import('@appium/types').MethodMap}
  */
 function getExtraMethodMap(driverClasses, pluginClasses) {
-  return [...driverClasses, ...pluginClasses].reduce(
-    (map, klass) => ({
-      ...map,
-      .../** @type {DriverClass} */ ((klass).newMethodMap ?? {}),
-    }),
-    {}
-  );
+  return [...driverClasses, ...pluginClasses].reduce((map, klass) => {
+    if ('newMethodMap' in klass) {
+      return {...map, ...klass.newMethodMap};
+    }
+    return map;
+  }, {});
 }
 
 /**
@@ -341,7 +340,7 @@ async function main(args) {
   if (parsedArgs.allowCors) {
     logger.warn(
       'You have enabled CORS requests from any host. Be careful not ' +
-                'to visit sites which could maliciously try to start Appium ' +
+        'to visit sites which could maliciously try to start Appium ' +
         'sessions on your machine'
     );
   }

@@ -14,6 +14,7 @@ import AsyncLock from 'async-lock';
 import {parseCapsForInnerDriver, pullSettings} from './utils';
 import {util, node, logger} from '@appium/support';
 import {getDefaultsForExtension} from './schema';
+import {PLUGIN_TYPE} from './constants';
 
 /**
  * Invariant set of base constraints
@@ -391,12 +392,19 @@ class AppiumDriver extends DriverCore {
    * @param {string} innerSessionId
    */
   attachUnexpectedShutdownHandler(driver, innerSessionId) {
+    /**
+     * Type guard...ugh
+     * @param {any} value
+     * @return {value is import('type-fest').SetRequired<Plugin, 'onUnexpectedShutdown'>}
+     */
+    const hasShutdownHandler = (value) => 'onUnexpectedShutdown' in value;
+
     const onShutdown = (cause = new Error('Unknown error')) => {
       this.log.warn(`Ending session, cause was '${cause.message}'`);
 
       if (this.sessionPlugins[innerSessionId]) {
         for (const plugin of this.sessionPlugins[innerSessionId]) {
-          if (_.isFunction(plugin.onUnexpectedShutdown)) {
+          if (hasShutdownHandler(plugin)) {
             this.log.debug(
               `Plugin ${plugin.name} defines an unexpected shutdown handler; calling it now`
             );
@@ -575,7 +583,7 @@ class AppiumDriver extends DriverCore {
     return this.pluginClasses.map((PluginClass) => {
       const name = PluginClass.pluginName;
       const plugin = new PluginClass(name);
-      this.assignCliArgsToExtension('plugin', name, plugin);
+      this.assignCliArgsToExtension(PLUGIN_TYPE, name, plugin);
       return plugin;
     });
   }
