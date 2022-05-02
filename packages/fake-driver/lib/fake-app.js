@@ -1,12 +1,10 @@
-import { fs } from 'appium/support';
-import { readFileSync } from 'fs';
+import {fs} from 'appium/support';
+import {readFileSync} from 'fs';
 import path from 'path';
 import XMLDom from '@xmldom/xmldom';
 import xpath from 'xpath';
 import log from './logger';
 import {FakeElement} from './fake-element';
-
-const {fs} = support;
 
 const SCREENSHOT = path.join(__dirname, 'screen.png');
 
