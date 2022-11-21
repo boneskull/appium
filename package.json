@@ -24,7 +24,26 @@
   "license": "Apache-2.0",
   "author": "https://github.com/appium",
   "workspaces": [
-    "packages/*"
+    "packages/schema",
+    "packages/eslint-config-appium",
+    "packages/types",
+    "packages/support",
+    "packages/test-support",
+    "packages/driver-test-support",
+    "packages/plugin-test-support",
+    "packages/base-driver",
+    "packages/base-plugin",
+    "packages/gulp-plugins",
+    "packages/doctor",
+    "packages/opencv",
+    "packages/docutils",
+    "packages/fake-driver",
+    "packages/fake-plugin",
+    "packages/execute-driver-plugin",
+    "packages/relaxed-caps-plugin",
+    "packages/images-plugin",
+    "packages/universal-xml-plugin",
+    "packages/appium"
   ],
   "scripts": {
     "build": "run-s build:distfiles build:types",
@@ -47,7 +66,7 @@
     "precommit-lint": "lint-staged",
     "precommit-msg": "echo 'Pre-commit checks...'",
     "prepublishOnly": "run-s clean:artifacts build sync-pkgs",
-    "reinstall": "run-s clean && npm ci",
+    "reinstall": "npm run clean && npm ci",
     "start": "appium",
     "sync-pkgs": "run-p sync-pkgs:*",
     "sync-pkgs:appium-readme": "sync-monorepo-packages --force --no-package-json --packages=packages/appium README.md",
@@ -139,6 +158,12 @@
     "access": "public"
   },
   "overrides": {
-    "jpeg-js": "0.4.4"
+    "jpeg-js": "0.4.4",
+    "@sidvind/better-ajv-errors": {
+      "ajv": "8.11.2"
+    },
+    "ajv-formats": {
+      "ajv": "8.11.2"
+    }
   }
 }

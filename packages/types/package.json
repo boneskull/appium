@@ -29,6 +29,7 @@
     "fix": "npm run lint -- --fix",
     "lint": "eslint -c ../../.eslintrc --ignore-path ../../.eslintignore .",
     "prepare": "npm run build",
+    "prepack": "npm run build",
     "test:smoke": "echo 'No smoke test for this package'"
   },
   "dependencies": {
